@@ -10,7 +10,7 @@ WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/app/venv
-RUN apt install python3.11-venv -y
+RUN apt install git python3.11-venv -y
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python -m pip install --upgrade pip
