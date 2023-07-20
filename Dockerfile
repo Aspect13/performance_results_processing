@@ -12,9 +12,10 @@ RUN Rscript requirements.r
 
 #ENV PYTHONPATH "${PYTHONPATH}:/app"
 ENV PYTHONUNBUFFERED=1
+ENV VIRTUAL_ENV=/app/venv
 RUN apt install python3.11-venv -y
-RUN python3 -m venv venv
-RUN source venv/bin/activate
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 RUN python -m pip install --upgrade pip
 
 ## installing python libraries
