@@ -2,8 +2,8 @@
 
 echo "Started"
 
-source venv/bin/activate
-echo "Venv activated"
+#source venv/bin/activate
+#echo "Venv activated"
 python -V
 
 echo "Start results_collector"

@@ -3,7 +3,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update
 RUN apt upgrade -y
 # RUN apt-get install -y --no-install-recommends git libcurl4-openssl-dev libssl-dev libxml2-dev build-essential libpq-dev python3 python3-pip python3-setuptools python3-dev
-# RUN apt install -y --no-install-recommends git libcurl4-openssl-dev libssl-dev libxml2-dev build-essential libpq-dev
 RUN apt install -y git libcurl4-openssl-dev libssl-dev libxml2-dev build-essential libpq-dev python3.11-venv python3-setuptools python3-dev
 WORKDIR /app
 
