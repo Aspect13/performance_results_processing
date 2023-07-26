@@ -1,10 +1,11 @@
 from os import environ
+from typing import TypedDict, Optional, NotRequired
+
 import requests
 from influxdb import InfluxDBClient
 from time import sleep, time
 import datetime
 from json import loads, dumps
-
 
 result_fields = "time,request_name,method,response_time,status,status_code,lg_id"
 user_fields = "time,active,lg_id"
@@ -23,8 +24,8 @@ exec_params = loads(environ.get("exec_params"))
 results_file_name = f"/tmp/{build_id}.csv"
 users_file_name = f"/tmp/users_{build_id}.csv"
 
-
 headers = {'Authorization': f'bearer {token}'}
+report_status_url = f'{base_url}/api/v1/backend_performance/report_status/{project_id}/{report_id}'
 
 
 def get_args():
@@ -42,8 +43,18 @@ def get_args():
 
 
 def get_test_status():
-    url = f'{base_url}/api/v1/backend_performance/report_status/{project_id}/{report_id}'
-    res = requests.get(url, headers=headers)
+    res = requests.get(report_status_url, headers=headers)
+    return res.json()
+
+
+TestStatus = TypedDict('TestStatus', {'status': str, 'percentage': int, 'description': NotRequired[str]})
+
+
+def set_test_status(status: TestStatus) -> dict:
+    # default_status = {"status": "ERROR", "percentage": 100, "description": "Failed update report"}
+    res = requests.put(report_status_url, headers=headers, json={
+        "test_status": status
+    })
     return res.json()
 
 
@@ -150,4 +161,10 @@ def run(args):
 
 if __name__ == '__main__':
     args = get_args()
+    if environ.get('manual_run'):
+        set_test_status({
+            'status': 'Manual post processing',
+            'percentage': 60,
+            'description': 'Running post processor manually'
+        })
     run(args)
