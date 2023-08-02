@@ -26,6 +26,8 @@ COPY results_processor.R .
 COPY results_collector.py .
 COPY reporter.py .
 COPY data_manager.py .
+COPY utils.py .
+COPY models.py .
 
 COPY start.sh .
 
